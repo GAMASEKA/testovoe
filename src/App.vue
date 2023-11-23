@@ -1,6 +1,6 @@
 <template>
   <button @click="console.log(this.myJson)">Проверить список</button>
-  <button @click="sortStartDays(myJson, --startDay)">Сортировать по дате начала.</button>
+  <button @click="sortStartDays(myJson, startDay)">Сортировать по дате начала.</button>
   <button @click="sortEndDays(myJson, -(++endDay))">Сортировать по дате окончания.</button>
   <button @click="sortOverDays(myJson, -overDay)">Сортировка по прошедшим диетам.</button>
   <button @click="sortCurrentDay(myJson, console.log('1'))"><span>заканчивается сегодня</span></button>
