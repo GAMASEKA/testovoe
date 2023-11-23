@@ -1,19 +1,12 @@
-# testovoe
+Добро пожаловать в мою таблицу.
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+1.
+Что бы начать сортировать её, необходимо ввести в поле цифру
+(image.png)
+Далее нажимаем кнопку "Найти", которая находится напротив соотвествующего поля. После этого в данных сохраняется заданное число.
+Если в дальнейшем пожелаем изменить его, то вписываем другое число в поле и нажимаем кнопку "Найти".
+2.
+После выше перечисленных действие нам остаеться нажимать на кнопки сверху.
+(image-1.png)
+Все они отвечают за свои поля, кроме двух последних.
+(image-2.png).
