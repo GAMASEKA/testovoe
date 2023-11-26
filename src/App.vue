@@ -1,8 +1,8 @@
 <template>
   <button @click="console.log(this.myJson)">Проверить список</button>
   <button @click="sortStartDays(myJson, startDay)">Сортировать по дате начала.</button>
-  <button @click="sortEndDays(myJson, -(++endDay))">Сортировать по дате окончания.</button>
-  <button @click="sortOverDays(myJson, -overDay)">Сортировка по прошедшим диетам.</button>
+  <button @click="sortEndDays(myJson, -(endDay))">Сортировать по дате окончания.</button>
+  <button @click="sortOverDays(myJson, overDay)">Сортировка по прошедшим диетам.</button>
   <button @click="sortCurrentDay(myJson, console.log('1'))"><span>заканчивается сегодня</span></button>
   <button @click="sortYesterDay(myJson, yesterDays)"><span>заканчивается завтра</span></button>
   <StatusInput :userList="myJson" @dayStart="dayStart" @dayEnd="dayEnd" @dayOver="dayOver"></StatusInput>
@@ -36,6 +36,11 @@ export default {
   },
   data() {
     return {
+      counterStart: 0,
+      counterEnd: 0,
+      counterOver: 0,
+      counterCurrent: 0,
+      counterYesterday: 0,
       myJson: json,
       startDay: '',
       endDay: '',
@@ -46,11 +51,6 @@ export default {
   },
   computed: {
 
-  },
-  watch: {
-    clearInput() {
-      console.log("1")
-    }
   },
 
   methods: {
@@ -89,31 +89,70 @@ export default {
       }
     },
     sortStartDays(arr, num) {
+      num = --num
       console.log(num)
-      return arr.sort((l, r) =>
-        Math.abs(this.getStartDay(l) - num) - Math.abs(this.getStartDay(r) - num));
+      this.counterStart++
+      if (this.counterStart % 2 !== 0) {
+        return arr.sort((l, r) =>
+          Math.abs(this.getStartDay(l) - num) - Math.abs(this.getStartDay(r) - num));
+      } else {
+        arr.sort((l, r) =>
+          Math.abs(this.getStartDay(l) - num) - Math.abs(this.getStartDay(r) - num));
+        return arr.reverse()
+      }
     },
     sortEndDays(arr, num) {
       console.log(num)
-      return arr.sort((l, r) =>
-        Math.abs(this.getEndDay(l) - num) - Math.abs(this.getEndDay(r) - num));
+      this.counterEnd++
+      if (this.counterEnd % 2 !== 0) {
+        return arr.sort((l, r) =>
+          Math.abs(this.getEndDay(l) - num) - Math.abs(this.getEndDay(r) - num));
+      } else {
+        arr.sort((l, r) =>
+          Math.abs(this.getEndDay(l) - num) - Math.abs(this.getEndDay(r) - num));
+        return arr.reverse()
+      }
+
     },
     sortOverDays(arr, num) {
+      num = -(++num)
       console.log(num)
-      return arr.sort((l, r) =>
-        Math.abs(this.getOverDay(l) - num) - Math.abs(this.getOverDay(r) - num));
+      this.counterOver++
+      if (this.counterOver % 2 !== 0) {
+        return arr.sort((l, r) =>
+          Math.abs(this.getOverDay(l) - num) - Math.abs(this.getOverDay(r) - num));
+      } else {
+        arr.sort((l, r) =>
+          Math.abs(this.getOverDay(l) - num) - Math.abs(this.getOverDay(r) - num));
+        return arr.reverse()
+      }
     },
     sortCurrentDay(arr) {
       const dt = new Date();
       const now = +[dt.getMonth() + 1, dt.getDate()].map(v => `0${v}`.slice(-2)).join('');
       console.log(now)
-      return arr.sort((l, r) => Math.abs(this.getForCurrent(l).replace(/[^\d]+/, '') - now) - Math.abs(this.getForCurrent(r).replace(/[^\d]+/, '') - now));
+      this.counterCurrent++
+      if (this.counterCurrent % 2 !== 0) {
+        return arr.sort((l, r) => Math.abs(this.getForCurrent(l).replace(/[^\d]+/, '') - now) - Math.abs(this.getForCurrent(r).replace(/[^\d]+/, '') - now));
+
+      } else {
+        arr.sort((l, r) =>
+          Math.abs(this.getForCurrent(l).replace(/[^\d]+/, '') - now) - Math.abs(this.getForCurrent(r).replace(/[^\d]+/, '') - now));
+        return arr.reverse()
+      }
     },
     sortYesterDay(arr, num) {
       const dt = new Date();
-      const now = +[dt.getMonth() + 1, dt.getDate()+1].map(v => `0${v}`.slice(-2)).join('');
+      const now = +[dt.getMonth() + 1, dt.getDate() + 1].map(v => `0${v}`.slice(-2)).join('');
       console.log(now)
-      return arr.sort((l, r) => Math.abs(this.getForCurrent(l).replace(/[^\d]+/, '') - now) - Math.abs(this.getForCurrent(r).replace(/[^\d]+/, '') - now));
+      this.counterYesterday++
+      if (this.counterYesterday % 2 !== 0) {
+        return arr.sort((l, r) => Math.abs(this.getForCurrent(l).replace(/[^\d]+/, '') - now) - Math.abs(this.getForCurrent(r).replace(/[^\d]+/, '') - now));
+      } else {
+        arr.sort((l, r) =>
+          Math.abs(this.getForCurrent(l).replace(/[^\d]+/, '') - now) - Math.abs(this.getForCurrent(r).replace(/[^\d]+/, '') - now));
+        return arr.reverse()
+      }
     },
 
   }
